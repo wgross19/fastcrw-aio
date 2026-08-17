@@ -1,0 +1,28 @@
+schema_version: 1
+repo: example-aio
+github_repo: wgross19/example-aio
+app_slug: example-aio
+image:
+  name: wgross19/example-aio
+  cache_scope: example-aio-image
+  pytest_tag: example-aio:pytest
+  publish_platforms: linux/amd64,linux/arm64
+release:
+  name: Example AIO
+  profile: changelog-version
+upstream:
+  name: Replace with upstream application
+  version_key: UPSTREAM_VERSION
+  digest_arg: UPSTREAM_IMAGE_DIGEST
+template:
+  xml_paths:
+    - example-aio.xml
+  generated: false
+catalog:
+  published: false
+  assets:
+    - source: example-aio.xml
+      target: example-aio.xml
+tests:
+  integration: tests/integration -m integration
+  checkout_submodules: false
