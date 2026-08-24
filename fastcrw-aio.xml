@@ -1,25 +1,35 @@
 <?xml version="1.0"?>
 <Container version="2">
-  <Name>yourapp-aio</Name>
-  <Repository>wgross19/yourapp-aio:latest</Repository>
-  <Registry>https://hub.docker.com/r/wgross19/yourapp-aio</Registry>
+  <Name>fastcrw-aio</Name>
+  <Repository>wgross19/fastcrw-aio:latest</Repository>
+  <Registry>https://hub.docker.com/r/wgross19/fastcrw-aio</Registry>
   <Network>bridge</Network>
   <MyIP/>
   <Shell>sh</Shell>
   <Privileged>false</Privileged>
-  <Support>https://github.com/wgross19/yourapp-aio/issues</Support>
-  <Project>https://github.com/wgross19/yourapp-aio</Project>
-  <Overview>Replace this overview with the real app description and first-run guidance.</Overview>
-  <Changes>### 2026-06-18&#xD;
+  <Support>https://github.com/wgross19/fastcrw-aio/issues</Support>
+  <Project>https://github.com/wgross19/fastcrw-aio</Project>
+  <Overview>fastcrw-aio bundles crw-server v0.31.0 (the crw web-content research and crawl engine) with the LightPanda JS renderer under s6 supervision. It exposes a REST API (default port 3000) for scraping, crawling, mapping, extracting, parsing, and search/research over URLs.
+
+First run:
+- The API listens on port 3000 (Web UI Port on the LAN). Keep the API Port env var aligned with the host port you publish if you change it.
+- Set the SearXNG URL (CRW_SEARCH__SEARXNG_URL) to an external SearXNG instance with its JSON API enabled to activate the /v1/search and research endpoints. Scrape, Crawl, Map, Extract, and Parse work without it.
+- LightPanda (bundled, in-container) is the default renderer. To use the heavy Chrome tier, set the Renderer Mode to chrome and supply an external CDP endpoint; Chrome is not bundled.
+- Persistent configuration lives under /config (runtime crw config), and application data under /data.
+
+Hidden advanced settings let you add optional OpenAlex and Semantic Scholar API keys, tune the search engines, gate the API with API keys, and cap memory limits.</Overview>
+  <Changes>### 2026-08-23&#xD;
+- Author fastcrw-aio.xml defaults (API port, LAN bind, SearXNG URL, renderer toggle, memory limit) and advanced toggles (OpenAlex, Semantic Scholar, search engines, API key gate)&#xD;
+### 2026-06-18&#xD;
 - Generated from CHANGELOG.md during release preparation. Do not edit manually.&#xD;
 - Consume shared aio-base overlay&#xD;
 - Remove starter apt dependency</Changes>
   <Category>Tools:</Category>
-  <WebUI>http://[IP]:[PORT:8080]</WebUI>
-  <TemplateURL>https://raw.githubusercontent.com/wgross19/awesome-unraid/main/yourapp-aio.xml</TemplateURL>
-  <Icon>https://raw.githubusercontent.com/wgross19/awesome-unraid/main/icons/yourapp.png</Icon>
-  <ExtraSearchTerms>replace-with-real-search-terms</ExtraSearchTerms>
-  <Requires>Replace this with any real operational prerequisites or remove it.</Requires>
+  <WebUI>http://[IP]:[PORT:3000]</WebUI>
+  <TemplateURL>https://raw.githubusercontent.com/wgross19/awesome-unraid/main/fastcrw-aio.xml</TemplateURL>
+  <Icon>https://raw.githubusercontent.com/wgross19/awesome-unraid/main/icons/fastcrw-aio.png</Icon>
+  <ExtraSearchTerms>crawler scraper crw-server lightpanda searxng research scraping crawl map extract parse</ExtraSearchTerms>
+  <Requires>An external SearXNG instance with the JSON API enabled is required for the search and research endpoints; scrape, crawl, map, extract, and parse work without it.</Requires>
   <ExtraParams/>
   <PostArgs/>
   <CPUset/>
@@ -31,28 +41,36 @@
     <Mode>bridge</Mode>
     <Publish>
       <Port>
-        <HostPort>8080</HostPort>
-        <ContainerPort>8080</ContainerPort>
+        <HostPort>3000</HostPort>
+        <ContainerPort>3000</ContainerPort>
         <Protocol>tcp</Protocol>
       </Port>
     </Publish>
   </Networking>
   <Data>
     <Volume>
-      <HostDir>/mnt/user/appdata/yourapp-aio/config</HostDir>
+      <HostDir>/mnt/user/appdata/fastcrw-aio/config</HostDir>
       <ContainerDir>/config</ContainerDir>
       <Mode>rw</Mode>
     </Volume>
     <Volume>
-      <HostDir>/mnt/user/appdata/yourapp-aio/data</HostDir>
+      <HostDir>/mnt/user/appdata/fastcrw-aio/data</HostDir>
       <ContainerDir>/data</ContainerDir>
       <Mode>rw</Mode>
     </Volume>
   </Data>
   <Environment/>
 
-  <Config Name="Web UI Port" Target="8080" Default="8080" Mode="tcp" Description="Replace with the main app port." Type="Port" Display="always" Required="true" Mask="false">8080</Config>
-  <Config Name="AppData - Config" Target="/config" Default="/mnt/user/appdata/yourapp-aio/config" Mode="rw" Description="Persistent app configuration." Type="Path" Display="always" Required="true" Mask="false">/mnt/user/appdata/yourapp-aio/config</Config>
-  <Config Name="AppData - Data" Target="/data" Default="/mnt/user/appdata/yourapp-aio/data" Mode="rw" Description="Persistent app data." Type="Path" Display="always" Required="true" Mask="false">/mnt/user/appdata/yourapp-aio/data</Config>
-  <Config Name="Example Variable" Target="APP_EXAMPLE" Default="" Mode="" Description="Replace with a real variable or remove it." Type="Variable" Display="advanced" Required="false" Mask="false"/>
+  <Config Name="Web UI Port" Target="3000" Default="3000" Mode="tcp" Description="Host (LAN) port that exposes the crw-server API (port 3000)." Type="Port" Display="always" Required="true" Mask="false">3000</Config>
+  <Config Name="API Port" Target="CRW_SERVER__PORT" Default="3000" Mode="" Description="Port crw-server listens on inside the container. Keep this aligned with the published Web UI Port." Type="Variable" Display="always" Required="true" Mask="false">3000</Config>
+  <Config Name="SearXNG URL" Target="CRW_SEARCH__SEARXNG_URL" Default="" Mode="" Description="Required for Search and Research; Scrape, Crawl, Map, Extract, and Parse work without it. Point this at an external SearXNG instance with its JSON API enabled." Type="Variable" Display="always" Required="false" Mask="false"/>
+  <Config Name="Renderer Mode" Target="CRW_RENDERER__MODE" Default="auto" Mode="" Description="Renderer to use: auto, lightpanda (bundled in-container), playwright, chrome (requires an external CDP endpoint; Chrome is not bundled), camoufox, or none." Type="Variable" Display="always" Required="false" Mask="false">auto</Config>
+  <Config Name="Memory Limit" Target="CRW_MEM_LIMIT" Default="2g" Mode="" Description="Cap on crw-server renderer and document-sandbox memory (e.g. 2g). Raise it when running the heavy Chrome tier or larger parse pools." Type="Variable" Display="always" Required="false" Mask="false">2g</Config>
+
+  <Config Name="OpenAlex API Key" Target="CRW_SEARCH__OPENALEX_API_KEY" Default="" Mode="" Description="Optional OpenAlex API key to lift rate limits on the research search engine. Unauthenticated access works without it." Type="Variable" Display="advanced" Required="false" Mask="true"/>
+  <Config Name="OpenAlex Mailto" Target="CRW_SEARCH__OPENALEX_MAILTO" Default="" Mode="" Description="Optional contact email (mailto) sent to the OpenAlex polite pool. Helps reliability; unauthenticated access works without it." Type="Variable" Display="advanced" Required="false" Mask="false"/>
+  <Config Name="Semantic Scholar API Key" Target="CRW_SEARCH__S2_API_KEY" Default="" Mode="" Description="Optional Semantic Scholar API key that boosts research result quality. Works without it." Type="Variable" Display="advanced" Required="false" Mask="true"/>
+  <Config Name="Research Engines" Target="CRW_SEARCH__RESEARCH_ENGINES" Default="arxiv,crossref,google scholar,semantic scholar" Mode="" Description="Comma-separated SearXNG engines used for research queries." Type="Variable" Display="advanced" Required="false" Mask="false">arxiv,crossref,google scholar,semantic scholar</Config>
+  <Config Name="GitHub Engines" Target="CRW_SEARCH__GITHUB_ENGINES" Default="github" Mode="" Description="Comma-separated SearXNG engines used for GitHub/code queries." Type="Variable" Display="advanced" Required="false" Mask="false">github</Config>
+  <Config Name="API Keys" Target="CRW_AUTH__API_KEYS" Default="" Mode="" Description="Optional comma-separated API keys that gate the crw-server REST API. Leave empty for open access." Type="Variable" Display="advanced" Required="false" Mask="true"/>
 </Container>
