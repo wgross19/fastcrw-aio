@@ -18,12 +18,23 @@ First run:
 - Persistent configuration lives under /config (runtime crw config), and application data under /data.
 
 Hidden advanced settings let you add optional OpenAlex and Semantic Scholar API keys, tune the search engines, gate the API with API keys, and cap memory limits.</Overview>
-  <Changes>### 2026-08-23&#xD;
+  <Changes>### 2026-08-24&#xD;
 - Generated from CHANGELOG.md during release preparation. Do not edit manually.&#xD;
-- Author fastcrw-aio.xml defaults (API port, LAN bind, SearXNG URL, renderer toggle, memory limit) and advanced toggles (OpenAlex, Semantic Scholar, search engines, API key gate)&#xD;
-- Register fastcrw-aio in the aio-fleet manifest (dub19/fastcrw-aio image, us/crw upstream monitor)&#xD;
-- Consume shared aio-base overlay&#xD;
-- Remove starter apt dependency</Changes>
+- Dockerfile builds crw-server v0.31.0 + LightPanda + s6&#xD;
+- Replace template README with fastcrw product docs&#xD;
+- S6 crw-server + lightpanda services and cont-init runtime config&#xD;
+- Bundle AIO-tailored config.docker.toml matching /docker-compose/fastcrw&#xD;
+- Author fastcrw-aio.xml defaults and advanced toggles&#xD;
+- Register fastcrw-aio for aio-fleet (dub19 image, us/crw monitor)&#xD;
+- Make fastcrw-aio trunk checks pass&#xD;
+- Restore sources and CA bundle in runtime image&#xD;
+- Use Docker Hub base namespace&#xD;
+- Pin published aio-base digest&#xD;
+- Bootstrap Unraid App Factory framework&#xD;
+- Rename Unraid template to fastcrw-aio.xml&#xD;
+- Allow full image build in integration gate&#xD;
+- Use publish image tag in integration smoke&#xD;
+- Enable fastcrw catalog sync</Changes>
   <Category>Tools:Utilities</Category>
   <WebUI>http://[IP]:[PORT:3000]</WebUI>
   <TemplateURL>https://raw.githubusercontent.com/wgross19/awesome-unraid/main/fastcrw-aio.xml</TemplateURL>

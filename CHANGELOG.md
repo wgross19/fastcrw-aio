@@ -2,6 +2,52 @@
 
 All notable changes to this project will be documented in this file.
 
+## v0.31.0-aio.1 - 2026-08-24
+
+### Build
+
+- Dockerfile builds crw-server v0.31.0 + LightPanda + s6
+
+### Documentation
+
+- Replace template README with fastcrw product docs
+
+### Features
+
+- S6 crw-server + lightpanda services and cont-init runtime config
+
+- Bundle AIO-tailored config.docker.toml matching /docker-compose/fastcrw
+
+- Author fastcrw-aio.xml defaults and advanced toggles
+
+- Register fastcrw-aio for aio-fleet (dub19 image, us/crw monitor)
+
+### Fixes
+
+- Make fastcrw-aio trunk checks pass
+
+- Restore sources and CA bundle in runtime image
+
+- Use Docker Hub base namespace
+
+- Pin published aio-base digest
+
+### Maintenance
+
+- Bootstrap Unraid App Factory framework
+
+- Rename Unraid template to fastcrw-aio.xml
+
+### Tests
+
+- Allow full image build in integration gate
+
+- Use publish image tag in integration smoke
+
+### release
+
+- Enable fastcrw catalog sync
+
 ## v0.1.3 - 2026-06-18
 
 ### Build
