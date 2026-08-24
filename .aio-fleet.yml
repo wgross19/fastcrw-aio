@@ -30,7 +30,7 @@ template:
     - fastcrw-aio.xml
   generated: false
 catalog:
-  published: false
+  published: true
   assets:
     - source: fastcrw-aio.xml
       target: fastcrw-aio.xml
