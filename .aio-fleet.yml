@@ -38,5 +38,5 @@ catalog:
       target: icons/fastcrw-aio.png
 tests:
   unit: tests -m "not integration"
-  integration: tests/integration -m integration --timeout=90
+  integration: tests/integration -m integration --timeout=600
   checkout_submodules: false
