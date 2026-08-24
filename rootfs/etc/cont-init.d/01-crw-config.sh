@@ -7,10 +7,13 @@ set -euo pipefail
 #
 # crw-server loads config.default.toml, then the file named by $CRW_CONFIG, then
 # applies CRW_* env overrides on top (env always wins). The bundled
-# config.docker.toml targets the docker-compose hostname `lightpanda`; in this
-# single-container AIO LightPanda runs in-container on 127.0.0.1:9222, so we
-# materialize a runtime copy with the renderer endpoint pointed at the bundled
-# instance. A failed validation aborts startup (s6 stage2 fails fast).
+# config.docker.toml is already AIO-tailored: it points LightPanda at the
+# in-container instance (ws://127.0.0.1:9222/) and leaves SearXNG unset so the
+# operator supplies it via CRW_SEARCH__SEARXNG_URL. The rewrite below is a
+# defensive fallback for the case where an operator mounts a docker-compose
+# config that still targets the compose hostname `lightpanda`; in that single
+# case we rewrite it to the in-container instance. A failed validation aborts
+# startup (s6 stage2 fails fast).
 #
 # Internal path overrides (AIO_* prefix, never read by crw-server) let the
 # non-integration tests exercise this script without a container.

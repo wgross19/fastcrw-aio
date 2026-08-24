@@ -123,7 +123,12 @@ COPY --from=aio-base /aio-overlay/ /
 # Bundle crw-server, its config defaults, curl (+libs), and LightPanda.
 COPY --from=builder /out/crw-server /usr/local/bin/crw-server
 COPY --from=builder /app/config.default.toml /app/config.default.toml
-COPY --from=builder /app/config.docker.toml /app/config.docker.toml
+# AIO-tailored overrides layered on top of config.default.toml, matching the
+# upstream /docker-compose/fastcrw tuning but adapted for the single-container
+# image (lightpanda in-container on 127.0.0.1:9222, chrome opt-in, external
+# SearXNG via env). This repo copy replaces the upstream compose config because
+# the compose hostnames (lightpanda/chrome/searxng) do not resolve in the AIO.
+COPY config.docker.toml /app/config.docker.toml
 COPY --from=curl-bundle /out/usr/bin/curl /usr/bin/curl
 COPY --from=curl-bundle /out/usr/lib/x86_64-linux-gnu/ /usr/lib/x86_64-linux-gnu/
 COPY --from=lightpanda /usr/bin/lightpanda /usr/local/bin/lightpanda
