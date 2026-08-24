@@ -1,5 +1,7 @@
 # fastcrw-aio
 
+![fastcrw](assets/fastcrw-banner.png)
+
 [fastCRW](https://github.com/us/crw) as one Unraid container. fastCRW is a Rust-native, Firecrawl-compatible search, scrape, crawl, map, and extract backend.
 
 `fastcrw-aio` runs one s6-supervised image:
