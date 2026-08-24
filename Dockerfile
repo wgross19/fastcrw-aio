@@ -89,6 +89,9 @@ RUN set -eux; \
 # ---- builder: compile crw-server on top of the cooked deps -------------------
 FROM cacher AS builder
 ARG CARGO_PACKAGES
+# cargo-chef cook replaces workspace sources with dependency-only stubs.
+# Restore the real source tree before compiling the application binary.
+COPY --from=chef /app/ /app/
 RUN set -eux; \
     RUST_TARGET="$(cat /rust_target)"; \
     cargo build --release --target "$RUST_TARGET" \
@@ -140,6 +143,9 @@ COPY config.docker.toml /app/config.docker.toml
 COPY --from=curl-bundle /out/usr/bin/curl /usr/bin/curl
 COPY --from=curl-bundle /out/usr/lib/x86_64-linux-gnu/ /usr/lib/x86_64-linux-gnu/
 COPY --from=lightpanda /usr/bin/lightpanda /usr/local/bin/lightpanda
+# debian:bookworm-slim has no CA bundle. Keep HTTPS clients functional after
+# aio-harden post removes only the snakeoil certificate.
+COPY --from=chef /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/ca-certificates.crt
 
 RUN aio-harden pre && \
     groupadd --system appuser && \
