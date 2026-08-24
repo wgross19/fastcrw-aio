@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <Container version="2">
   <Name>fastcrw-aio</Name>
-  <Repository>wgross19/fastcrw-aio:latest</Repository>
-  <Registry>https://hub.docker.com/r/wgross19/fastcrw-aio</Registry>
+  <Repository>dub19/fastcrw-aio:latest</Repository>
+  <Registry>https://hub.docker.com/r/dub19/fastcrw-aio</Registry>
   <Network>bridge</Network>
   <MyIP/>
   <Shell>sh</Shell>
@@ -19,12 +19,12 @@ First run:
 
 Hidden advanced settings let you add optional OpenAlex and Semantic Scholar API keys, tune the search engines, gate the API with API keys, and cap memory limits.</Overview>
   <Changes>### 2026-08-23&#xD;
-- Author fastcrw-aio.xml defaults (API port, LAN bind, SearXNG URL, renderer toggle, memory limit) and advanced toggles (OpenAlex, Semantic Scholar, search engines, API key gate)&#xD;
-### 2026-06-18&#xD;
 - Generated from CHANGELOG.md during release preparation. Do not edit manually.&#xD;
+- Author fastcrw-aio.xml defaults (API port, LAN bind, SearXNG URL, renderer toggle, memory limit) and advanced toggles (OpenAlex, Semantic Scholar, search engines, API key gate)&#xD;
+- Register fastcrw-aio in the aio-fleet manifest (dub19/fastcrw-aio image, us/crw upstream monitor)&#xD;
 - Consume shared aio-base overlay&#xD;
 - Remove starter apt dependency</Changes>
-  <Category>Tools:</Category>
+  <Category>Tools:Utilities</Category>
   <WebUI>http://[IP]:[PORT:3000]</WebUI>
   <TemplateURL>https://raw.githubusercontent.com/wgross19/awesome-unraid/main/fastcrw-aio.xml</TemplateURL>
   <Icon>https://raw.githubusercontent.com/wgross19/awesome-unraid/main/icons/fastcrw-aio.png</Icon>

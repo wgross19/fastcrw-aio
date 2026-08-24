@@ -1,28 +1,42 @@
 schema_version: 1
-repo: example-aio
-github_repo: wgross19/example-aio
-app_slug: example-aio
+repo: fastcrw-aio
+github_repo: wgross19/fastcrw-aio
+app_slug: fastcrw-aio
 image:
-  name: wgross19/example-aio
-  cache_scope: example-aio-image
-  pytest_tag: example-aio:pytest
-  publish_platforms: linux/amd64,linux/arm64
+  name: dub19/fastcrw-aio
+  cache_scope: fastcrw-aio-image
+  pytest_tag: fastcrw-aio:pytest
+  publish_platforms: linux/amd64
 release:
-  name: Example AIO
+  name: fastcrw AIO
   profile: changelog-version
+  previous_tag_command: latest-aio-tag
 upstream:
-  name: Replace with upstream application
-  version_key: UPSTREAM_VERSION
+  name: crw
+  version_key: CRW_VERSION
   digest_arg: UPSTREAM_IMAGE_DIGEST
+  monitor:
+    - component: crw
+      name: crw
+      source: github-tags
+      repo: us/crw
+      dockerfile: Dockerfile
+      version_key: CRW_VERSION
+      stable_only: true
+      strategy: notify
+      release_notes_url: https://github.com/us/crw/releases
 template:
   xml_paths:
-    - example-aio.xml
+    - fastcrw-aio.xml
   generated: false
 catalog:
   published: false
   assets:
-    - source: example-aio.xml
-      target: example-aio.xml
+    - source: fastcrw-aio.xml
+      target: fastcrw-aio.xml
+    - source: assets/app-icon.png
+      target: icons/fastcrw-aio.png
 tests:
-  integration: tests/integration -m integration
+  unit: tests -m "not integration"
+  integration: tests/integration -m integration --timeout=90
   checkout_submodules: false
