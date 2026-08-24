@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-import xml.etree.ElementTree as ET
+from defusedxml import ElementTree as ET
 
 from tests.conftest import REPO_ROOT
 
@@ -9,14 +9,13 @@ XML = REPO_ROOT / "fastcrw-aio.xml"
 
 def _config_map() -> dict[str, dict[str, str]]:
     root = ET.parse(XML).getroot()
-    return {
-        c.attrib["Name"]: c.attrib
-        for c in root.findall("Config")
-    }
+    assert root is not None  # nosec B101
+    return {c.attrib["Name"]: c.attrib for c in root.findall("Config")}
 
 
 def test_xml_is_well_formed() -> None:
     root = ET.parse(XML).getroot()
+    assert root is not None  # nosec B101
     assert root.tag == "Container"  # nosec B101
 
 
@@ -30,6 +29,7 @@ def test_xml_exposes_api_port_default() -> None:
 
 def test_xml_publishes_container_port_3000() -> None:
     root = ET.parse(XML).getroot()
+    assert root is not None  # nosec B101
     publish = root.find("./Networking/Publish/Port")
     assert publish is not None  # nosec B101
     container_port = publish.find("ContainerPort")

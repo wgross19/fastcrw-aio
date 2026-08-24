@@ -24,6 +24,7 @@ FROM wgross19/aio-base:s6-3.2.1.0@sha256:07db479a01a95ba28480b4605f5d1cc8bedb574
 
 # ---- upstream crw build (us/crw v0.31.0 @ fa26843a) -------------------------
 FROM rust:1.97-bookworm@sha256:606f3248aa86ce49e0b98d9e0bbffde042adeb18982320f97bcc218615de1c99 AS chef
+SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
 # Pinned upstream release tag, monitored by aio-fleet (github-tags, us/crw).
 # The tarball sha256 below must move together with this tag; the monitor uses
@@ -101,6 +102,7 @@ RUN set -eux; \
 # image. We copy the binary plus the transitive .so closure and recreate the
 # SONAME symlinks so the dynamic loader can resolve them at runtime.
 FROM rust:1.97-bookworm@sha256:606f3248aa86ce49e0b98d9e0bbffde042adeb18982320f97bcc218615de1c99 AS curl-bundle
+SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 RUN set -eu; \
     mkdir -p /out/usr/bin /out/usr/lib/x86_64-linux-gnu; \
     cp /usr/bin/curl /out/usr/bin/curl; \

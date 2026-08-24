@@ -1,12 +1,16 @@
 from __future__ import annotations
 
 import os
+import shutil
 import subprocess  # nosec B404 - tests shell out to the bundled cont-init script
 import tempfile
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 CONT_INIT = ROOT / "rootfs/etc/cont-init.d/01-crw-config.sh"
+BASH = shutil.which("bash")
+if BASH is None:
+    raise RuntimeError("bash is required for cont-init tests")
 
 
 def _run_cont_init(
@@ -22,7 +26,7 @@ def _run_cont_init(
     if env:
         cmd_env.update(env)
     return subprocess.run(  # nosec B603 - trusted local script
-        ["bash", str(CONT_INIT)],
+        [BASH, str(CONT_INIT)],
         env=cmd_env,
         text=True,
         capture_output=True,

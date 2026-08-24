@@ -27,9 +27,7 @@ def test_crw_server_serves_health_and_lightpanda_cdp(runtime: DockerRuntime) -> 
         assert health  # nosec B101
 
         # LightPanda CDP is reachable on 9222 inside the container.
-        cdp = container.exec(
-            "curl -fsS http://127.0.0.1:9222/json/version"
-        ).stdout
+        cdp = container.exec("curl -fsS http://127.0.0.1:9222/json/version").stdout
         assert "Lightpanda" in cdp  # nosec B101
 
 

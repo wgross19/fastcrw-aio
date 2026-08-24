@@ -31,22 +31,22 @@ fi
 # CRW_RENDERER__MODE must be a known renderer mode when set.
 if [[ -n ${CRW_RENDERER__MODE-} ]]; then
 	case "${CRW_RENDERER__MODE}" in
-		auto | lightpanda | playwright | chrome | camoufox | none) ;;
-		*)
-			echo "[crw-config] ERROR: CRW_RENDERER__MODE='${CRW_RENDERER__MODE}' is not a valid renderer mode (auto|lightpanda|playwright|chrome|camoufox|none)." >&2
-			exit 1
-			;;
+	auto | lightpanda | playwright | chrome | camoufox | none) ;;
+	*)
+		echo "[crw-config] ERROR: CRW_RENDERER__MODE='${CRW_RENDERER__MODE}' is not a valid renderer mode (auto|lightpanda|playwright|chrome|camoufox|none)." >&2
+		exit 1
+		;;
 	esac
 fi
 
 # CRW_SEARCH__SEARXNG_URL must be an http(s) URL when set.
 if [[ -n ${CRW_SEARCH__SEARXNG_URL-} ]]; then
 	case "${CRW_SEARCH__SEARXNG_URL}" in
-		http://* | https://*) ;;
-		*)
-			echo "[crw-config] ERROR: CRW_SEARCH__SEARXNG_URL='${CRW_SEARCH__SEARXNG_URL}' must be an http(s) URL." >&2
-			exit 1
-			;;
+	http://* | https://*) ;;
+	*)
+		echo "[crw-config] ERROR: CRW_SEARCH__SEARXNG_URL='${CRW_SEARCH__SEARXNG_URL}' must be an http(s) URL." >&2
+		exit 1
+		;;
 	esac
 fi
 
