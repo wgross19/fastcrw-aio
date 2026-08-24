@@ -16,7 +16,7 @@ Use this when turning the template into a real app repo.
 ## Files You Will Almost Always Touch
 
 - [`Dockerfile`](Dockerfile)
-- [`template-aio.xml`](template-aio.xml)
+- [`fastcrw-aio.xml`](fastcrw-aio.xml)
 - [`README.md`](README.md)
 - [`pyproject.toml`](pyproject.toml)
 - [`tests/integration/test_container_runtime.py`](tests/integration/test_container_runtime.py)
