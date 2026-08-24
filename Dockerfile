@@ -20,7 +20,7 @@ ARG CARGO_PACKAGES="-p crw-server --features cdp"
 
 # ---- shared aio-base overlay (s6 + lifecycle tooling) -----------------------
 # Not pulled into the Rust stages; used as the runtime s6 overlay provider.
-FROM wgross19/aio-base:s6-3.2.1.0@sha256:07db479a01a95ba28480b4605f5d1cc8bedb574b77cf167ee46e29b9558fee90 AS aio-base
+FROM dub19/aio-base:s6-3.2.1.0@sha256:07db479a01a95ba28480b4605f5d1cc8bedb574b77cf167ee46e29b9558fee90 AS aio-base
 
 # ---- upstream crw build (us/crw v0.31.0 @ fa26843a) -------------------------
 FROM rust:1.97-bookworm@sha256:606f3248aa86ce49e0b98d9e0bbffde042adeb18982320f97bcc218615de1c99 AS chef
