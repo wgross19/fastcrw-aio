@@ -1,0 +1,13 @@
+#!/command/with-contenv bash
+# shellcheck shell=bash
+set -euo pipefail
+
+# LightPanda JS renderer (CDP server). Runs as appuser on 127.0.0.1:9222,
+# reachable only inside the container. crw-server connects to it via
+# [renderer.lightpanda].ws_url in the runtime config.
+
+export HOME="/home/appuser"
+export USER="appuser"
+export LOGNAME="appuser"
+
+exec /command/s6-setuidgid appuser /usr/local/bin/lightpanda serve --host 127.0.0.1 --port 9222

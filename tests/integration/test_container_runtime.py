@@ -18,35 +18,28 @@ def runtime() -> DockerRuntime:
     return runtime
 
 
-def test_happy_path_boot_and_restart_persists_generated_env(
+def test_crw_server_serves_health_and_lightpanda_cdp(runtime: DockerRuntime) -> None:
+    with runtime.container() as container:
+        container.wait_for_http(path="/health")
+
+        # crw-server API responds on /health.
+        health = container.exec("curl -fsS http://127.0.0.1:3000/health").stdout
+        assert health  # nosec B101
+
+        # LightPanda CDP is reachable on 9222 inside the container.
+        cdp = container.exec(
+            "curl -fsS http://127.0.0.1:9222/json/version"
+        ).stdout
+        assert "Lightpanda" in cdp  # nosec B101
+
+
+def test_runtime_config_written_and_points_at_bundled_lightpanda(
     runtime: DockerRuntime,
 ) -> None:
     with runtime.container() as container:
-        container.wait_for_http()
-        assert container.path_exists("/config/aio/generated.env")  # nosec B101
+        container.wait_for_http(path="/health")
+        assert container.path_exists("/config/aio/crw-runtime.toml")  # nosec B101
 
-        secret_before = container.exec(
-            "awk -F= '/^APP_SECRET_KEY=/{print $2}' /config/aio/generated.env"
-        ).stdout.strip()
-        assert secret_before  # nosec B101
-
-        container.restart()
-        container.wait_for_http()
-
-        secret_after = container.exec(
-            "awk -F= '/^APP_SECRET_KEY=/{print $2}' /config/aio/generated.env"
-        ).stdout.strip()
-        assert secret_after == secret_before  # nosec B101
-
-
-def test_explicit_secret_override_skips_generated_secret(
-    runtime: DockerRuntime,
-) -> None:
-    with runtime.container(
-        env_overrides={"APP_SECRET_KEY": "explicit-template-value"}  # nosec B105
-    ) as container:
-        container.wait_for_http()
-        result = container.exec(
-            "grep '^APP_SECRET_KEY=' /config/aio/generated.env || true"
-        )
-        assert result.stdout.strip() == ""  # nosec B101
+        config = container.read_text("/config/aio/crw-runtime.toml")
+        assert 'ws_url = "ws://127.0.0.1:9222/"' in config  # nosec B101
+        assert "ws://lightpanda:9222/" not in config  # nosec B101

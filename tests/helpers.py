@@ -151,7 +151,7 @@ class DockerRuntime:
                 "--name",
                 name,
                 "-p",
-                f"{http_port}:8080",
+                f"{http_port}:3000",
                 "-v",
                 f"{config_volume}:/config",
                 "-v",
