@@ -81,6 +81,16 @@ This image does not replace `/docker-compose/fastcrw` automatically.
 
 Keep the existing Compose stack until a separate migration decision is approved.
 
+## Upgrades
+
+Upgrades are review-gated and automated, not silent:
+
+1. The aio-fleet control plane watches `us/crw` for new stable tags.
+2. On a new tag it opens a PR that updates `CRW_VERSION` and the `CRW_TARBALL_SHA256` pin together. The archive sha256 is recomputed at PR time and verified by the PR's own build (`sha256sum -c` fails closed on mismatch). The PR body inlines the upstream release notes.
+3. You review and merge that one PR. Merging publishes the new image and syncs the catalog. No manual Dockerfile edits.
+
+The sha pin verifies integrity in transit, not upstream authenticity: the hash is computed from the same archive the build consumes. Authenticity comes from reviewing the upstream release notes in the PR before merging.
+
 ## License
 
 The fastcrw-aio wrapper is MIT.
