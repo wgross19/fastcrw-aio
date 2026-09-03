@@ -9,7 +9,7 @@
   <Privileged>false</Privileged>
   <Support>https://github.com/wgross19/fastcrw-aio/issues</Support>
   <Project>https://github.com/wgross19/fastcrw-aio</Project>
-  <Overview>fastcrw-aio bundles crw-server v0.31.0 (the crw web-content research and crawl engine) with the LightPanda JS renderer under s6 supervision. It exposes a REST API (default port 3000) for scraping, crawling, mapping, extracting, parsing, and search/research over URLs.
+  <Overview>fastcrw-aio bundles crw-server v0.33.0 (the crw web-content research and crawl engine) with the LightPanda JS renderer under s6 supervision. It exposes a REST API (default port 3000) for scraping, crawling, mapping, extracting, parsing, and search/research over URLs.
 
 First run:
 - The API listens on port 3000 (Web UI Port on the LAN). Keep the API Port env var aligned with the host port you publish if you change it.
