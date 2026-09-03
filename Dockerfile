@@ -27,8 +27,9 @@ FROM rust:1.97-bookworm@sha256:606f3248aa86ce49e0b98d9e0bbffde042adeb18982320f97
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
 # Pinned upstream release tag, monitored by aio-fleet (github-tags, us/crw).
-# The tarball sha256 below must move together with this tag; the monitor uses
-# `notify` strategy for exactly this reason (it cannot recompute the checksum).
+# CRW_VERSION and CRW_TARBALL_SHA256 must move together: the monitor computes
+# the tarball sha256 at PR time and rewrites BOTH ARGs in one commit (strategy
+# `pr`); the build below fails closed on any version/sha mismatch.
 ARG CRW_VERSION=v0.33.0
 
 # Rust target for the requested build arch. Only native (amd64) is wired here:
@@ -59,12 +60,14 @@ ENV CARGO_TARGET_AARCH64_UNKNOWN_LINUX_GNU_LINKER=aarch64-linux-gnu-gcc \
     CARGO_PROFILE_RELEASE_CODEGEN_UNITS=16
 
 # Fetch + verify the pinned upstream source once (shared by the build stages).
-# The tarball sha256 is the pin for us/crw v0.33.0 (bcf64392); the sha must be
-# updated in lockstep with CRW_VERSION above.
+# CRW_TARBALL_SHA256 is the pin for us/crw v0.33.0 (bcf64392) and must be
+# updated in lockstep with CRW_VERSION above. The inline default keeps
+# read_arg() working between PRs; aio-fleet's monitor rewrites it.
+ARG CRW_TARBALL_SHA256=d80781259b184175a0ed8db8df061ef5a7a063aebfa3fe94ffe4e62127e7c78c
 RUN set -eux; \
     curl -fsSL -o /tmp/crw.tar.gz \
       "https://github.com/us/crw/archive/refs/tags/${CRW_VERSION}.tar.gz"; \
-    echo "d80781259b184175a0ed8db8df061ef5a7a063aebfa3fe94ffe4e62127e7c78c  /tmp/crw.tar.gz" | sha256sum -c -; \
+    echo "${CRW_TARBALL_SHA256}  /tmp/crw.tar.gz" | sha256sum -c -; \
     mkdir -p /app; \
     tar -C /app -xzf /tmp/crw.tar.gz --strip-components=1; \
     rm -f /tmp/crw.tar.gz
