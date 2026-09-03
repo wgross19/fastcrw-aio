@@ -5,7 +5,7 @@
 # =============================================================================
 # fastcrw-aio
 #
-# Builds crw-server v0.31.0 (us/crw @ fa26843a) with an upstream Rust
+# Builds crw-server v0.33.0 (us/crw @ bcf64392) with an upstream Rust
 # cargo-chef multi-stage build, then overlays the shared aio-base s6 runtime,
 # bundles the LightPanda JS renderer, curl (with its shared-lib closure) and a
 # healthcheck. Exposes crw-server on 3000; LightPanda runs in-container on
@@ -22,14 +22,14 @@ ARG CARGO_PACKAGES="-p crw-server --features cdp"
 # Not pulled into the Rust stages; used as the runtime s6 overlay provider.
 FROM dub19/aio-base:s6-3.2.1.0@sha256:203e643ac3360e7c0930aa007fcaa0780d69cb068b5ce1bfe55bf1dfa4f36126 AS aio-base
 
-# ---- upstream crw build (us/crw v0.31.0 @ fa26843a) -------------------------
+# ---- upstream crw build (us/crw v0.33.0 @ bcf64392) -------------------------
 FROM rust:1.97-bookworm@sha256:606f3248aa86ce49e0b98d9e0bbffde042adeb18982320f97bcc218615de1c99 AS chef
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
 # Pinned upstream release tag, monitored by aio-fleet (github-tags, us/crw).
 # The tarball sha256 below must move together with this tag; the monitor uses
 # `notify` strategy for exactly this reason (it cannot recompute the checksum).
-ARG CRW_VERSION=v0.31.0
+ARG CRW_VERSION=v0.33.0
 
 # Rust target for the requested build arch. Only native (amd64) is wired here:
 # arm64 cross-compilation would need a pre-provisioned cross toolchain because
@@ -51,7 +51,7 @@ RUN set -eux; \
     echo "$RUST_TARGET" > /rust_target
 
 # Pinned cargo-chef so the cacher layer is deterministic. Parses the edition
-# 2024 / resolver-2 workspace used by crw v0.31.0.
+# 2024 / resolver-2 workspace used by crw v0.33.0.
 RUN cargo install cargo-chef --locked --version 0.1.77
 
 ENV CARGO_TARGET_AARCH64_UNKNOWN_LINUX_GNU_LINKER=aarch64-linux-gnu-gcc \
@@ -59,12 +59,12 @@ ENV CARGO_TARGET_AARCH64_UNKNOWN_LINUX_GNU_LINKER=aarch64-linux-gnu-gcc \
     CARGO_PROFILE_RELEASE_CODEGEN_UNITS=16
 
 # Fetch + verify the pinned upstream source once (shared by the build stages).
-# The tarball sha256 is the pin for us/crw v0.31.0 (fa26843a); the sha must be
+# The tarball sha256 is the pin for us/crw v0.33.0 (bcf64392); the sha must be
 # updated in lockstep with CRW_VERSION above.
 RUN set -eux; \
     curl -fsSL -o /tmp/crw.tar.gz \
       "https://github.com/us/crw/archive/refs/tags/${CRW_VERSION}.tar.gz"; \
-    echo "699f559de01bda695c42c688699fe638dcddd32ebed51136971fed6adc586efa  /tmp/crw.tar.gz" | sha256sum -c -; \
+    echo "d80781259b184175a0ed8db8df061ef5a7a063aebfa3fe94ffe4e62127e7c78c  /tmp/crw.tar.gz" | sha256sum -c -; \
     mkdir -p /app; \
     tar -C /app -xzf /tmp/crw.tar.gz --strip-components=1; \
     rm -f /tmp/crw.tar.gz

@@ -58,7 +58,7 @@ The container writes runtime configuration under `/config` and runtime data unde
 
 - Docker Hub: [dub19/fastcrw-aio](https://hub.docker.com/r/dub19/fastcrw-aio)
 - GHCR: [ghcr.io/wgross19/fastcrw-aio](https://github.com/users/wgross19/packages/container/package/fastcrw-aio)
-- Upstream: `us/crw` `v0.31.0` at `fa26843a`
+- Upstream: `us/crw` `v0.33.0` at `bcf64392`
 - Published rolling tags: `latest` and the commit SHA tag
 - Platform: `linux/amd64`
 
