@@ -22,8 +22,9 @@ upstream:
       repo: us/crw
       dockerfile: Dockerfile
       version_key: CRW_VERSION
+      tarball_sha_key: CRW_TARBALL_SHA256
       stable_only: true
-      strategy: notify
+      strategy: pr
       release_notes_url: https://github.com/us/crw/releases
 template:
   xml_paths:
