@@ -62,14 +62,22 @@ def test_xml_advanced_toggles_are_hidden_and_keyed_to_env() -> None:
         "OpenAlex API Key": "CRW_SEARCH__OPENALEX_API_KEY",
         "OpenAlex Mailto": "CRW_SEARCH__OPENALEX_MAILTO",
         "Semantic Scholar API Key": "CRW_SEARCH__S2_API_KEY",
-        "Research Engines": "CRW_SEARCH__RESEARCH_ENGINES",
-        "GitHub Engines": "CRW_SEARCH__GITHUB_ENGINES",
         "API Keys": "CRW_AUTH__API_KEYS",
     }
     for name, target in expected.items():
         field = cfg[name]
         assert field["Target"] == target  # nosec B101
         assert field["Display"] == "advanced"  # nosec B101
+
+
+def test_xml_does_not_expose_list_type_engine_env_vars() -> None:
+    # crw-server parses list-type settings (TOML sequences) from config files
+    # only; a CRW_* env var always arrives as a string and fails config load,
+    # which crash-loops the server on boot. Engine lists must stay on the
+    # bundled config defaults (research_engines / github_engines).
+    cfg = _config_map()
+    for forbidden in ("CRW_SEARCH__RESEARCH_ENGINES", "CRW_SEARCH__GITHUB_ENGINES"):
+        assert all(c["Target"] != forbidden for c in cfg.values())  # nosec B101
 
 
 def test_xml_optional_heavy_chrome_renderer_noted() -> None:

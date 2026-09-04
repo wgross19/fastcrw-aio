@@ -17,7 +17,7 @@ First run:
 - LightPanda (bundled, in-container) is the default renderer. To use the heavy Chrome tier, set the Renderer Mode to chrome and supply an external CDP endpoint; Chrome is not bundled.
 - Persistent configuration lives under /config (runtime crw config), and application data under /data.
 
-Hidden advanced settings let you add optional OpenAlex and Semantic Scholar API keys, tune the search engines, gate the API with API keys, and cap memory limits.</Overview>
+Hidden advanced settings let you add optional OpenAlex and Semantic Scholar API keys, gate the API with API keys, and cap memory limits.</Overview>
   <Changes>### 2026-08-24&#xD;
 - Generated from CHANGELOG.md during release preparation. Do not edit manually.&#xD;
 - Dockerfile builds crw-server v0.31.0 + LightPanda + s6&#xD;
@@ -81,7 +81,5 @@ Hidden advanced settings let you add optional OpenAlex and Semantic Scholar API 
   <Config Name="OpenAlex API Key" Target="CRW_SEARCH__OPENALEX_API_KEY" Default="" Mode="" Description="Optional OpenAlex API key to lift rate limits on the research search engine. Unauthenticated access works without it." Type="Variable" Display="advanced" Required="false" Mask="true"/>
   <Config Name="OpenAlex Mailto" Target="CRW_SEARCH__OPENALEX_MAILTO" Default="" Mode="" Description="Optional contact email (mailto) sent to the OpenAlex polite pool. Helps reliability; unauthenticated access works without it." Type="Variable" Display="advanced" Required="false" Mask="false"/>
   <Config Name="Semantic Scholar API Key" Target="CRW_SEARCH__S2_API_KEY" Default="" Mode="" Description="Optional Semantic Scholar API key that boosts research result quality. Works without it." Type="Variable" Display="advanced" Required="false" Mask="true"/>
-  <Config Name="Research Engines" Target="CRW_SEARCH__RESEARCH_ENGINES" Default="arxiv,crossref,google scholar,semantic scholar" Mode="" Description="Comma-separated SearXNG engines used for research queries." Type="Variable" Display="advanced" Required="false" Mask="false">arxiv,crossref,google scholar,semantic scholar</Config>
-  <Config Name="GitHub Engines" Target="CRW_SEARCH__GITHUB_ENGINES" Default="github" Mode="" Description="Comma-separated SearXNG engines used for GitHub/code queries." Type="Variable" Display="advanced" Required="false" Mask="false">github</Config>
   <Config Name="API Keys" Target="CRW_AUTH__API_KEYS" Default="" Mode="" Description="Optional comma-separated API keys that gate the crw-server REST API. Leave empty for open access." Type="Variable" Display="advanced" Required="false" Mask="true"/>
 </Container>
