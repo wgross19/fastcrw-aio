@@ -32,6 +32,13 @@ SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 # `pr`); the build below fails closed on any version/sha mismatch.
 ARG CRW_VERSION=v0.33.0
 
+# Internal API listener port, pinned for the AIO bundle. The published host
+# port is the only operator-facing knob (Unraid template "API Port" field);
+# the container always serves the API on this fixed port so the Dockerfile
+# EXPOSE, healthcheck, and /mcp URLs stay consistent. Healthcheck hardcodes
+# 3000 below — keep both in sync if this ever changes.
+ENV CRW_SERVER__PORT=3000
+
 # Rust target for the requested build arch. Only native (amd64) is wired here:
 # arm64 cross-compilation would need a pre-provisioned cross toolchain because
 # this image deliberately has no apt-get (aio policy). LightPanda is amd64-only

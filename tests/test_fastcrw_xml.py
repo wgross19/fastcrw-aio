@@ -22,9 +22,19 @@ def test_xml_is_well_formed() -> None:
 def test_xml_exposes_api_port_default() -> None:
     cfg = _config_map()
     api = cfg["API Port"]
-    assert api["Target"] == "CRW_SERVER__PORT"  # nosec B101
+    assert api["Target"] == "3000"  # nosec B101
     assert api["Default"] == "3000"  # nosec B101
     assert api["Display"] == "always"  # nosec B101
+    # No web UI exists; the published port serves the REST API only.
+    assert "Web UI" not in api["Name"]  # nosec B101
+
+
+def test_xml_does_not_expose_internal_api_port_env_var() -> None:
+    # CRW_SERVER__PORT is pinned to 3000 in the Dockerfile. Exposing it as a
+    # template field lets it drift from the published port (and the
+    # hardcoded healthcheck), so it must not be operator-facing.
+    cfg = _config_map()
+    assert all(c["Target"] != "CRW_SERVER__PORT" for c in cfg.values())  # nosec B101
 
 
 def test_xml_publishes_container_port_3000() -> None:
@@ -54,6 +64,7 @@ def test_xml_exposes_memory_limit() -> None:
     mem = cfg["Memory Limit"]
     assert mem["Target"] == "CRW_MEM_LIMIT"  # nosec B101
     assert mem["Default"] == "2g"  # nosec B101
+    assert mem["Display"] == "advanced"  # nosec B101
 
 
 def test_xml_advanced_toggles_are_hidden_and_keyed_to_env() -> None:

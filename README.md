@@ -23,7 +23,10 @@ Point Hermes or any Firecrawl SDK at `http://<lan>:3000`.
 - Parse: `/v2/parse`
 - Search: `/v1/search` and `/v2/search`
 - Health: `/health`
-- MCP: `/mcp` on the same API port
+- MCP: `/mcp` on the API port
+- OpenAPI docs: `/openapi.json`
+
+There is no web UI. The published port serves the REST API only.
 
 ## Search and research
 
@@ -66,10 +69,13 @@ The container writes runtime configuration under `/config` and runtime data unde
 
 Core fields:
 
-- `CRW_SERVER__PORT`, default `3000`
-- `CRW_SEARCH__SEARXNG_URL`, external SearXNG URL
+- `CRW_SEARCH__SEARXNG_URL`, external SearXNG URL (e.g. `http://192.168.1.100:8080`)
 - `CRW_RENDERER__MODE`, default `auto`
-- `CRW_MEM_LIMIT`, default `2g`
+
+The internal API port is pinned to `3000` in the image (`CRW_SERVER__PORT`
+is set in the Dockerfile). The published host port is the only port knob;
+change it in the Unraid template's API Port field. `CRW_MEM_LIMIT` (default
+`2g`) is an advanced, hidden field.
 
 Advanced fields are optional and hidden in the Unraid template.
 

@@ -17,7 +17,7 @@ Teach your agent when and why to use CRW with the official fastCRW agent skill (
 
 First run:
 - Scrape, Crawl, Map, and Extract work out of the box. Full JavaScript rendering is built in via the bundled LightPanda renderer.
-- Set the SearXNG URL (CRW_SEARCH__SEARXNG_URL) to an external SearXNG instance with its JSON API enabled to activate /v1/search and research queries.
+- Set the SearXNG URL (CRW_SEARCH__SEARXNG_URL) to an external SearXNG instance with its JSON API enabled to activate /v1/search and research queries, e.g. http://192.168.1.100:8080 (your Unraid IP and SearXNG port).
 - To use the heavy Chrome renderer tier, set Renderer Mode to chrome and supply an external CDP endpoint; Chrome is not bundled.
 - Persistent configuration lives under /config (runtime crw config), and application data under /data.
 
@@ -76,11 +76,11 @@ Advanced settings (hidden by default): optional OpenAlex and Semantic Scholar AP
   </Data>
   <Environment/>
 
-  <Config Name="Web UI Port" Target="3000" Default="3000" Mode="tcp" Description="Host (LAN) port that exposes the crw-server API (port 3000)." Type="Port" Display="always" Required="true" Mask="false">3000</Config>
-  <Config Name="API Port" Target="CRW_SERVER__PORT" Default="3000" Mode="" Description="Port crw-server listens on inside the container. Keep this aligned with the published Web UI Port." Type="Variable" Display="always" Required="true" Mask="false">3000</Config>
-  <Config Name="SearXNG URL" Target="CRW_SEARCH__SEARXNG_URL" Default="" Mode="" Description="Required for Search and Research; Scrape, Crawl, Map, Extract, and Parse work without it. Point this at an external SearXNG instance with its JSON API enabled." Type="Variable" Display="always" Required="false" Mask="false"/>
+  <Config Name="API Port" Target="3000" Default="3000" Mode="tcp" Description="Host (LAN) port that exposes the fastCRW REST API, /mcp, and /openapi.json. The API always serves on container port 3000 (pinned in the image); change only this host-side port." Type="Port" Display="always" Required="true" Mask="false">3000</Config>
+  <Config Name="SearXNG URL" Target="CRW_SEARCH__SEARXNG_URL" Default="" Mode="" Description="Required for Search and Research; Scrape, Crawl, Map, and Extract work without it. Point this at an external SearXNG instance with its JSON API enabled, e.g. http://192.168.1.100:8080 (your Unraid IP and SearXNG port)." Type="Variable" Display="always" Required="false" Mask="false"/>
   <Config Name="Renderer Mode" Target="CRW_RENDERER__MODE" Default="auto" Mode="" Description="Renderer to use: auto, lightpanda (bundled in-container), playwright, chrome (requires an external CDP endpoint; Chrome is not bundled), camoufox, or none." Type="Variable" Display="always" Required="false" Mask="false">auto</Config>
-  <Config Name="Memory Limit" Target="CRW_MEM_LIMIT" Default="2g" Mode="" Description="Cap on crw-server renderer and document-sandbox memory (e.g. 2g). Raise it when running the heavy Chrome tier or larger parse pools." Type="Variable" Display="always" Required="false" Mask="false">2g</Config>
+
+  <Config Name="Memory Limit" Target="CRW_MEM_LIMIT" Default="2g" Mode="" Description="Cap on crw-server renderer and document-sandbox memory (e.g. 2g). Raise it when running the heavy Chrome tier or larger parse pools." Type="Variable" Display="advanced" Required="false" Mask="false">2g</Config>
 
   <Config Name="OpenAlex API Key" Target="CRW_SEARCH__OPENALEX_API_KEY" Default="" Mode="" Description="Optional OpenAlex API key to lift rate limits on the research search engine. Unauthenticated access works without it." Type="Variable" Display="advanced" Required="false" Mask="true"/>
   <Config Name="OpenAlex Mailto" Target="CRW_SEARCH__OPENALEX_MAILTO" Default="" Mode="" Description="Optional contact email (mailto) sent to the OpenAlex polite pool. Helps reliability; unauthenticated access works without it." Type="Variable" Display="advanced" Required="false" Mask="false"/>
