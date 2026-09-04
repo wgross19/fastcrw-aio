@@ -13,6 +13,8 @@
 
 The REST API listens on port 3000 (default) with the Firecrawl-compatible /v1 surface: scrape, crawl, map, extract, search, and batch scrape. Point MCP-compatible agents (Claude Code, Cursor, and more) at http://[IP]:3000/mcp for 9 native tools (crw_search, crw_scrape, and friends). Full API docs are served at http://[IP]:3000/openapi.json.
 
+Teach your agent when and why to use CRW with the official fastCRW agent skill (https://fastcrw.com/skills): a ~100-token SKILL.md that auto-triggers on web-data tasks, installed with one command (npx crw-mcp@latest install, supports Claude Code, Cursor, Gemini CLI, Codex, OpenCode, and Windsurf). Point the skill at this container by setting CRW_API_URL to http://[IP]:3000, then MCP handles execution.
+
 First run:
 - Scrape, Crawl, Map, and Extract work out of the box. Full JavaScript rendering is built in via the bundled LightPanda renderer.
 - Set the SearXNG URL (CRW_SEARCH__SEARXNG_URL) to an external SearXNG instance with its JSON API enabled to activate /v1/search and research queries.
