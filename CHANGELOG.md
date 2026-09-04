@@ -2,6 +2,38 @@
 
 All notable changes to this project will be documented in this file.
 
+## v0.33.0-aio.1 - 2026-09-04
+
+### Documentation
+
+- Add Upgrades section with trust-boundary honesty (#4)
+
+- Value-first Overview from fastcrw.com product story
+
+- Add fastCRW agent-skill wiring to Overview
+
+### Features
+
+- ARG-ify tarball sha pin for monitor-driven upgrades (#3)
+
+### Fixes
+
+- Drop list-type engine env fields that crash-loop crw-server
+
+### Maintenance
+
+- Prune stale worktrees + remove disposable venvs
+
+- Bump crw to v0.33.0 (#2)
+
+### Refactors
+
+- API-port-only field map, no web-UI wording
+
+### style
+
+- Optimize official fastcrw images
+
 ## v0.31.0-aio.1 - 2026-08-24
 
 ### Build
