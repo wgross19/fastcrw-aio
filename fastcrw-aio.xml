@@ -22,17 +22,9 @@ First run:
 - Persistent configuration lives under /config (runtime crw config), and application data under /data.
 
 Advanced settings (hidden by default): optional OpenAlex and Semantic Scholar API keys, API key gating for the REST API, and renderer memory limits.</Overview>
-  <Changes>### 2026-09-04&#xD;
+  <Changes>### 2026-10-08&#xD;
 - Generated from CHANGELOG.md during release preparation. Do not edit manually.&#xD;
-- Add Upgrades section with trust-boundary honesty (#4)&#xD;
-- Value-first Overview from fastcrw.com product story&#xD;
-- Add fastCRW agent-skill wiring to Overview&#xD;
-- ARG-ify tarball sha pin for monitor-driven upgrades (#3)&#xD;
-- Drop list-type engine env fields that crash-loop crw-server&#xD;
-- Prune stale worktrees + remove disposable venvs&#xD;
-- Bump crw to v0.33.0 (#2)&#xD;
-- API-port-only field map, no web-UI wording&#xD;
-- Optimize official fastcrw images</Changes>
+- Bump crw to v0.37.2 (#29)</Changes>
   <Category>Tools:Utilities</Category>
   <WebUI>http://[IP]:[PORT:3000]</WebUI>
   <TemplateURL>https://raw.githubusercontent.com/wgross19/awesome-unraid/main/fastcrw-aio.xml</TemplateURL>
