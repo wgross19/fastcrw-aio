@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## v0.39.1-aio.1 - 2026-11-04
+
+### Maintenance
+
+- Bump crw to v0.39.1 (#43)
+
 ## v0.37.2-aio.1 - 2026-10-08
 
 ### Maintenance

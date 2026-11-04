@@ -22,9 +22,9 @@ First run:
 - Persistent configuration lives under /config (runtime crw config), and application data under /data.
 
 Advanced settings (hidden by default): optional OpenAlex and Semantic Scholar API keys, API key gating for the REST API, and renderer memory limits.</Overview>
-  <Changes>### 2026-10-08&#xD;
+  <Changes>### 2026-11-04&#xD;
 - Generated from CHANGELOG.md during release preparation. Do not edit manually.&#xD;
-- Bump crw to v0.37.2 (#29)</Changes>
+- Bump crw to v0.39.1 (#43)</Changes>
   <Category>Tools:Utilities</Category>
   <WebUI>http://[IP]:[PORT:3000]</WebUI>
   <TemplateURL>https://raw.githubusercontent.com/wgross19/awesome-unraid/main/fastcrw-aio.xml</TemplateURL>
