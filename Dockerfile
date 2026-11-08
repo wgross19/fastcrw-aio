@@ -30,7 +30,7 @@ SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 # CRW_VERSION and CRW_TARBALL_SHA256 must move together: the monitor computes
 # the tarball sha256 at PR time and rewrites BOTH ARGs in one commit (strategy
 # `pr`); the build below fails closed on any version/sha mismatch.
-ARG CRW_VERSION=v0.42.1
+ARG CRW_VERSION=v0.43.0
 
 # Internal API listener port, pinned for the AIO bundle. The published host
 # port is the only operator-facing knob (Unraid template "API Port" field);
@@ -70,7 +70,7 @@ ENV CARGO_TARGET_AARCH64_UNKNOWN_LINUX_GNU_LINKER=aarch64-linux-gnu-gcc \
 # CRW_TARBALL_SHA256 is the pin for us/crw v0.33.0 (bcf64392) and must be
 # updated in lockstep with CRW_VERSION above. The inline default keeps
 # read_arg() working between PRs; aio-fleet's monitor rewrites it.
-ARG CRW_TARBALL_SHA256=57ad7e668bfa216499686fc27bef447f659f4f8912d04293a82c3c1b408d172d
+ARG CRW_TARBALL_SHA256=d0ddc6b2c0d7588e0762d2f7f455b618e47382b769564789a40555f8c39d279e
 RUN set -eux; \
     curl -fsSL -o /tmp/crw.tar.gz \
       "https://github.com/us/crw/archive/refs/tags/${CRW_VERSION}.tar.gz"; \
