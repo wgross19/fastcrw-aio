@@ -38,6 +38,6 @@ catalog:
     - source: assets/app-icon.png
       target: icons/fastcrw-aio.png
 tests:
-  unit: tests -m "not integration"
+  unit: tests --ignore=tests/integration --ignore=tests/release -m "not integration"
   integration: tests/integration -m integration --timeout=600
   checkout_submodules: false
